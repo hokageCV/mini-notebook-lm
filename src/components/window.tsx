@@ -1,28 +1,16 @@
+'use client'
+
+import Index from './window/index';
+
 export function Window() {
 	return (
 		<div className="flex flex-col md:flex-row w-full max-w-5xl h-[500px] overflow-hidden">
-			<LeftSection />
+			<Index />
 			<RightSection />
 		</div>
 	);
 }
 
-function LeftSection() {
-	return (
-		<div className="flex flex-col w-full md:w-2/5 border border-border p-4 bg-card">
-			<h2 className="text-lg font-semibold mb-3 text-foreground">
-				Compose Message
-			</h2>
-			<textarea
-				className="w-full h-60 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent resize-none"
-				placeholder="Type your message here..."
-			/>
-			<button className="mt-4 bg-accent hover:bg-accent-hover text-accent-text font-medium py-2 px-4 rounded-lg transition-colors cursor-pointer">
-				Submit Message
-			</button>
-		</div>
-	);
-}
 
 function RightSection() {
 	return (
