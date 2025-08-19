@@ -1,3 +1,4 @@
+import File from './file';
 import Text from './text';
 
 export default function Index() {
@@ -7,6 +8,7 @@ export default function Index() {
 				Add data to context
 			</h2>
       <Text />
+			<File />
 		</div>
 	);
 }
