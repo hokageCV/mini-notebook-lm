@@ -1,22 +1,36 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #2b2219;
+  --foreground: #e2ddda;
+  --card: #2f2620;
+  --accent: #b6815d;
+  --accent-text: #e2ddda;
+  --accent-hover: #9c643e;
+
+  --header: #ab6e44;
+  --border: rgba(183, 142, 114, 0.658);
+
+  --neutral:rgba(226, 221, 218, 0.561);
+  --neutral-border: rgba(187, 183, 180, 0.506);
+
+  --accent-card: rgba(209, 176, 153, 0.716);
+  --accent-card-2: #bbb7b4;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-card: var(--card);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-text: var(--accent-text);
+  --color-header: var(--header);
+  --color-border: var(--border);
+  --color-neutral: var(--neutral);
+  --color-neutral-border: var(--neutral-border);
+  --color-accent-card: var(--accent-card);
+  --color-accent-card-2: var(--accent-card-2);
 }
 
 body {
