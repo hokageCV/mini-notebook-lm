@@ -1,6 +1,5 @@
+import set_up_store from '@/app/utils/vector-store';
 import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
-import { OpenAIEmbeddings } from '@langchain/openai';
-import { QdrantVectorStore } from '@langchain/qdrant';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -9,21 +8,14 @@ export async function POST(req: NextRequest) {
     const file = form_data.get('file') as File;
 
     if (!file) {
-      return NextResponse.json({ error: 'No file provided' }, { status: 400 } )
+      return NextResponse.json({ error: 'No file provided' }, { status: 400 })
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
     const loader = new PDFLoader(new Blob([buffer]));
     const docs = await loader.load();
 
-    const embeddings = new OpenAIEmbeddings({
-      model: 'text-embedding-3-large',
-    });
-
-    const vector_store = await QdrantVectorStore.fromExistingCollection(embeddings, {
-      url: process.env.DB_URL!,
-      collectionName: process.env.DB_COLLECTION_NAME!,
-    });
+    const vector_store = set_up_store()
     await vector_store.addDocuments(docs);
 
     const response = NextResponse.json(

@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { CheerioWebBaseLoader } from '@langchain/community/document_loaders/web/cheerio'
+import set_up_store from '@/app/utils/vector-store';
+import { CheerioWebBaseLoader } from '@langchain/community/document_loaders/web/cheerio';
 import { OpenAIEmbeddings } from '@langchain/openai';
 import { QdrantVectorStore } from '@langchain/qdrant';
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,14 +26,7 @@ export async function POST(req: NextRequest) {
     });
     const split_docs = await text_splitter.splitDocuments(docs);
 
-    const embeddings = new OpenAIEmbeddings({
-      model: 'text-embedding-3-large',
-    });
-
-    const vector_store = await QdrantVectorStore.fromExistingCollection(embeddings, {
-      url: process.env.DB_URL!,
-      collectionName: process.env.DB_COLLECTION_NAME!,
-    });
+    const vector_store = set_up_store()
 
     const batch_size = 5;
     let processed_count = 0;

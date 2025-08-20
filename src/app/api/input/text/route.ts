@@ -1,21 +1,11 @@
+import set_up_store from '@/app/utils/vector-store';
 import { Document } from '@langchain/core/documents';
-import { OpenAIEmbeddings } from '@langchain/openai';
-import { QdrantVectorStore } from '@langchain/qdrant';
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
     const data = await req.json()
     const user_input = data.text
-
-    const embeddings = new OpenAIEmbeddings({
-      model: 'text-embedding-3-large',
-    });
-
-    const vector_store = await QdrantVectorStore.fromExistingCollection(embeddings, {
-      url: process.env.DB_URL,
-      collectionName: process.env.DB_COLLECTION_NAME,
-    })
 
     const document = new Document({
       pageContent: user_input,
@@ -25,6 +15,8 @@ export async function POST(req: Request) {
         type: 'small_text'
       }
     });
+
+    const vector_store = set_up_store()
     await vector_store.addDocuments([document]);
 
     const response = NextResponse.json(
@@ -34,6 +26,7 @@ export async function POST(req: Request) {
 
     return response
   } catch (err: any) {
+    console.error('Error in POST handler:', err);
     return NextResponse.json(
       { error: err.message },
       { status: 500 }
