@@ -1,5 +1,6 @@
 import File from './file';
 import Text from './text';
+import Url from './url';
 
 export default function Index() {
 	return (
@@ -9,6 +10,7 @@ export default function Index() {
 			</h2>
       <Text />
 			<File />
+			<Url />
 		</div>
 	);
 }
