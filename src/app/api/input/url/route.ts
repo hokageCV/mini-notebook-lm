@@ -1,7 +1,5 @@
-import set_up_store from '@/app/utils/vector-store';
+import set_up_store from '@/utils/vector-store';
 import { CheerioWebBaseLoader } from '@langchain/community/document_loaders/web/cheerio';
-import { OpenAIEmbeddings } from '@langchain/openai';
-import { QdrantVectorStore } from '@langchain/qdrant';
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 import { NextRequest, NextResponse } from 'next/server';
 

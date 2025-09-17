@@ -1,10 +1,18 @@
-import { OpenAIEmbeddings } from '@langchain/openai';
+import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai';
+// import { OpenAIEmbeddings } from '@langchain/openai';
 import { QdrantVectorStore } from '@langchain/qdrant';
 import { QdrantClient } from "@qdrant/js-client-rest";
 
+
 export default function set_up_store() {
-  const embeddings = new OpenAIEmbeddings({
-    model: 'text-embedding-3-large',
+  // OPENAI_API_KEY in env
+  // const embeddings = new OpenAIEmbeddings({
+  //   model: 'text-embedding-3-large',
+  // });
+
+  const embeddings = new GoogleGenerativeAIEmbeddings({
+    model:'gemini-embedding-exp-03-07',
+    apiKey: process.env.GOOGLE_API_KEY,
   });
 
   const client = new QdrantClient({

@@ -1,4 +1,4 @@
-import set_up_store from '@/app/utils/vector-store';
+import set_up_store from '@/utils/vector-store';
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
