@@ -1,6 +1,7 @@
 import set_up_store from '@/utils/vector-store';
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
+import { rewrite } from './query-rewrite';
 
 export async function POST(req: NextRequest) {
 
@@ -10,7 +11,8 @@ export async function POST(req: NextRequest) {
     let vector_retriever = vector_store.asRetriever({ k: 3 }) // k -> how many similar docs to fetch
 
     const data = await req.json()
-    const user_query = data.message
+    const raw_query = data.message
+    const user_query = await rewrite(raw_query)
     const relevant_chunk = await vector_retriever.invoke(user_query)
 
     const SYSTEM_PROMPT = `
@@ -21,7 +23,7 @@ export async function POST(req: NextRequest) {
 
     const client = new OpenAI
     const relevant_data = await client.chat.completions.create({
-      model: 'gpt-4.1-mini',
+      model: 'gpt-5-nano',
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: user_query }
