@@ -1,19 +1,15 @@
-import set_up_store from '@/utils/vector-store';
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
+import { corrective_rag } from './corrective-rag';
 import { rewrite } from './query-rewrite';
 
 export async function POST(req: NextRequest) {
 
   try {
-
-    const vector_store = set_up_store()
-    let vector_retriever = vector_store.asRetriever({ k: 3 }) // k -> how many similar docs to fetch
-
     const data = await req.json()
     const raw_query = data.message
     const user_query = await rewrite(raw_query)
-    const relevant_chunk = await vector_retriever.invoke(user_query)
+    let relevant_chunk = await corrective_rag(user_query)
 
     const SYSTEM_PROMPT = `
       ${process.env.SYSTEM_INSTRUCTIONS}
